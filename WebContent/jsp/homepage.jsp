@@ -49,14 +49,14 @@
 			     <input type="checkbox" checked="checked">Remember me<br>
 			   </div>
 			
-			  <div class="container" style="background-color:#f1f1f1">
+				  <div class="container" style="background-color:#f1f1f1">
 			     <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
 			     <span class="psw">Forgot <a href="#">password?</a></span>
 			   </div>
 			  </form>
 			</div>
 	
-			<%/*alarm2 */
+			<%/*alert 2 */
 			if(request.getSession().getAttribute("loginFailed") != null)/*	SHOW THE FOLLOWING MODAL IF LOGIN FAIL */
 			{ 
 			%>    
@@ -76,6 +76,7 @@
 			<!-- The Modal (contains the Sign Up form) -->
 			<div id="id02" class="modal">
 			 <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+			 
 			 <form class="modal-content animate" action="<%= request.getSession().getAttribute("URL")%>" method="post">
 			 <input name="servletAction" type="hidden" value="<%= Page.LOGIN.name() %>">   
 			    
