@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-
+<%@ page  import="schooltomorrow.MainServlet.*, java.util.*" %>
 <!DOCTYPE html>
 <html>
 <script src="https://www.w3schools.com/lib/w3.js"></script>	
@@ -9,7 +9,8 @@
 	<link href="css/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	
+
+<% %>	
 <header><!--   	logo     -->
    		<form action="calendar.html" method="post">	<!-- calendar in which display FreeSlot of the worker-->
 			<div class="container">
@@ -40,8 +41,8 @@
 
 <div id="content">
 
-	<%
-		if(session.("settingsErrorMsg") != null)/*	SHOW THE FOLLOWING MODAL IF CHANGIES SUCCEDED  */
+	<%/*alrm1 */
+		if(request.getSession().getAttribute("settingsErrorMsg") != null)/*	SHOW THE FOLLOWING MODAL IF CHANGIES SUCCEDED  */
 		{ 
 	%>    
 	 <!-- The Alert -->
@@ -52,8 +53,7 @@
 	 <% 
 		}
 	%>
-
-
+	
 	<div class="menu" id="ex_users"> <!-- parent side -->
 	    <fieldset > 
 	    <div w3-include-html="forms.html"></div> 
