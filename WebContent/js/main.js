@@ -15,6 +15,14 @@ var f = "f";/*free*/
 var na = "na";/*available*/
 var b = "b";/*booked*/
 
+/*
+ * data = [
+ * 		{ id: 1, date: 1-2-2017, state: c},
+ *      { id: 2, date: 1-2-2017, state: f}
+ * ]
+ * 
+ * data[0].id
+ * */
 
 var data = [
     [c,f,b,c,na,f], //sunday
@@ -72,7 +80,7 @@ for (var i = 0; i < 12; i++){ /* For every row (hour)*/
         
         td.onclick = (function(par1, par2) {
             return function() { /*just to show all the modal forms*/
-
+               $.post('servlet', { name: "John", time: "2pm" });
                document.getElementById('id05').style.display='block';/*showup modal form "new appointment" (parent side)*/
                updateCell(par1, par2);
                document.getElementById('id09').style.display='block';
@@ -98,6 +106,9 @@ function updateColumn(i){
 
 function updateCell(i, k){
     data[k][i] = c;
+    
+/*    $.post('servlet', { name: "John", time: "2pm" });*/
+    
     document.getElementById('hour-' + i + '-' + k).classList.remove("free");
     document.getElementById('hour-' + i + '-' + k).className = "taken";
 }

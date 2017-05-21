@@ -11,20 +11,23 @@
 </head>
 <body>
 
-	<%/*Am I a parent or a worker? */
-		if(((User)request.getSession().getAttribute("currentUser")).getRole() == Role.Parent )
+	<%/*alert 4 */
+		if( ((User)request.getSession().getAttribute("currentUser")).getCityRegistration() == null   )/*	SHOW THE FOLLOWING MODAL IF CHANGIES SUCCEDED  */
 		{ 
 	%>    
-<!-- 	here i am a parent -->
-
+	 <!-- The Alert -->
+		<div class="alert">
+  		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+  			Please, complite the registration before arrange an appointment
+		</div>
 	 <% 
-		}else{ 
-	
 		}
 	%>
+
 	
 <header><!--   	logo     -->
-   		<form action="calendar.html" method="post">	<!-- calendar in which display FreeSlot of the worker-->
+   		<form action="<%= request.getSession().getAttribute("URL")%>" method="post" method="post">	
+		<input name="servletAction" type="hidden" value="<%= Page.GET_TABLE.name() %>"> 
 			<div class="container">
 
 			   	<label>Topic of the appointment</label>
@@ -38,22 +41,16 @@
 	                <option value = "Teacher D">
 	            </datalist>
 	            <br/>
-	
-			<button onclick="calendar with data of professors loaded??????????????????????????????l">Submit</button> <br> 
+			<button>Submit</button> <br> 
 			</div>
 	 	</form>
     
-    
-    <fieldset> 
-	    <!-- <button type="button" class="languagebtn">EN</button>
-		<button type="button" class="languagebtn">RU</button>  -->     
-  	</fieldset>
 </header>	
 <br>
 
 <div id="content">
 
-	<%/*alrm1 */
+	<%/*alert 1 */
 		if(request.getSession().getAttribute("settingsErrorMsg") != null)/*	SHOW THE FOLLOWING MODAL IF CHANGIES SUCCEDED  */
 		{ 
 	%>    
@@ -68,17 +65,25 @@
 	
 	<div class="menu" id="ex_users"> <!-- parent side -->
 	    <fieldset > 
-	    <div w3-include-html="forms.html"></div> 
-      
-	  	</fieldset>
+	    	<jsp:include page='form.jsp' />
+	    </fieldset>
 	 </div>
 	
 	<div class="calendar" >
 		<div class="week"> 
 		  <fieldset>
 	  	  	<p class="weeknoun" style="font-weight: bold;font-size: x-large"> 12 / 19 MAY </p> 
-		    <p class="prev">&#10094;</p>	
-		    <p class="next">&#10095;</p> 
+			   <form action="<%= request.getSession().getAttribute("URL")%>" method="post" method="post">	
+					<input name="servletAction" type="hidden" value="<%= Page.GET_TABLE.name() %>"> 
+					<input name="startingfrom" type="hidden" value="<%= request.getSession().getAttribute("prevweek") %>"> 
+			    	<p class="prev">&#10094;</p> 
+			   </form>
+   
+			   <form action="<%= request.getSession().getAttribute("URL")%>" method="post" method="post">	
+					<input name="servletAction" type="hidden" value="<%= Page.GET_TABLE.name() %>"> 
+					<input name="startingfrom" type="hidden" value="<%= request.getSession().getAttribute("nextweek") %>"> 
+			    	<p class="next">&#10095;</p> 
+			   </form>
 		    <p class="weeknoun" style="font-weight: bold;">2016</p>
 		  </fieldset>
 		</div>
@@ -91,8 +96,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script src="js/main.js"></script>
 
-<script>
-w3.includeHTML();
-</script>
 </body>
 </html>
