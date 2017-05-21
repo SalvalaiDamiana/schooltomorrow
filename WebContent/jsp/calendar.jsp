@@ -10,7 +10,19 @@
 </head>
 <body>
 
-<% %>	
+	<%/*Am I a parent or a worker? */
+		if( (User)request.getSession().getAttribute("currentUser").role == Role.Parent.name() )
+		{ 
+	%>    
+	 here i am a parent
+
+	 <% 
+		}else{ 
+	here i am a segretary
+	
+		}
+	%>
+	
 <header><!--   	logo     -->
    		<form action="calendar.html" method="post">	<!-- calendar in which display FreeSlot of the worker-->
 			<div class="container">
