@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Enumeration;
@@ -85,7 +86,8 @@ public class MainServlet extends HttpServlet {
     Parent, Secretary, Admin;
   }/** All possible JSP pages in this project. */
   public enum Page {
-    HOME, LOGIN, UPDATE_USER_INFO, CREATE_TIMESLOTS, RESERVE_TIMESLOT;
+    HOME, LOGIN, LOGOUT, UPDATE_USER_INFO, UPDATE_USER_ACCOUNT, CREATE_TIMESLOTS, RESERVE_TIMESLOT, 
+    GET_TABLE;
   }
   /** Errors in different pages. */
   public enum Errors {
@@ -104,11 +106,11 @@ public class MainServlet extends HttpServlet {
       // in case if there were errors earlier
       Set<Errors> pageErrors = EnumSet.noneOf(Errors.class);
       request.getSession().setAttribute(sPageErrors, pageErrors);
-      request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+      request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
       return;
     }
     request.getSession().setAttribute(sCurrentPage, Page.HOME.name());
-    request.getRequestDispatcher("/jsp/main.jsp").forward(request, response);
+    request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
     
     if (true) return;
 		response.setContentType("text/html");
@@ -155,13 +157,13 @@ public class MainServlet extends HttpServlet {
     request.getSession().setAttribute(sPageErrors, pageErrors);
     if (request.getSession().getAttribute(sCurrentUser) == null
         && !((String)request.getParameter(sServletAction)).equals(Page.LOGIN.name())) {
-      request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+      request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
       return;
     }
     if (request.getParameter(sServletAction) == null) { 
       // have got here by mistake
       request.getSession().setAttribute(sCurrentPage, Page.HOME.name());
-      request.getRequestDispatcher("/jsp/main.jsp").forward(request, response);
+      request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
       return;
     }
     switch (Page.valueOf(request.getParameter(sServletAction))) {
@@ -177,7 +179,7 @@ public class MainServlet extends HttpServlet {
 	        pageErrors.add(Errors.LOGIN_FAILED);
 	        request.getSession().setAttribute(sPageErrors, pageErrors);
 	        request.getSession().setAttribute(sLoginFailed, sLoginFailed);
-	        request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+	        request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
 	        return;
 	      }
 	      // Retrieve user's information
@@ -186,7 +188,7 @@ public class MainServlet extends HttpServlet {
 	        pageErrors.add(Errors.LOGIN_FAILED);
 	        request.getSession().setAttribute(sPageErrors, pageErrors);
 	        request.getSession().setAttribute(sLoginFailed, sLoginFailed);
-	        request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+	        request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
 	        return;
 	      } else {
 	        request.getSession(true).invalidate();
@@ -195,7 +197,7 @@ public class MainServlet extends HttpServlet {
 	        currentUser = loadUserData(currentUser);
 	        request.getSession().setAttribute(sCurrentUser, currentUser);
 	        request.getSession().setAttribute(sCurrentPage, Page.HOME.name());
-	        request.getRequestDispatcher("/jsp/main.jsp").forward(request, response);
+	        request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
 	      }
 	    } break; // case "NEW_LOGIN":
 	    // --------------
@@ -238,6 +240,23 @@ public class MainServlet extends HttpServlet {
 	    	//reserve 
 	    } break;
 	    // --------------
+	    case GET_TABLE: {
+	    	LocalDateTime ldt = LocalDateTime.now();
+	    	if (request.getSession().getAttribute("prevweek") != null) {
+	    		ldt = LocalDateTime.parse((String)request.getSession().getAttribute("prevweek"), 
+	    				DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+	    	}
+	    	if (request.getSession().getAttribute("nextweek") != null) {
+	    		ldt = LocalDateTime.parse((String)request.getSession().getAttribute("nextweek"), 
+	    				DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+	    	}
+	    	ScheduleInfo[][] scheduleInfo = new ScheduleInfo[7][12];
+	    	for (int i = 0; i < scheduleInfo.length; i++) {
+	    		for (int j = 0; j < scheduleInfo[i].length; j++) {
+	    			
+	    		}
+	    	}
+	    } break;
 	    // --------------
 	    // --------------
 	    // --------------
@@ -290,6 +309,11 @@ public class MainServlet extends HttpServlet {
 			out.println("StackTrace: " + e.getStackTrace());*/
 			return null;
 		}
+	}
+	// ----------------------
+	public final class ScheduleInfo {
+		String time;
+		String state;
 	}
 	// ----------------------
 	public final class User {

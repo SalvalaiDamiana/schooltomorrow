@@ -8,7 +8,7 @@
 	
   <servlet>
     <servlet-name>MainServlet</servlet-name>
-    <servlet-class>appointment.MainServlet</servlet-class>
+    <servlet-class>schooltomorrow.MainServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>MainServlet</servlet-name>
