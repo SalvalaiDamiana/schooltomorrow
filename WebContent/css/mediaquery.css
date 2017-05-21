@@ -1,0 +1,14 @@
+@CHARSET "ISO-8859-1";
+
+@media screen and (max-width: 400px)
+{/*Mobile styles here*/
+
+	.menu{
+		width:100%
+	}
+	.calendar{
+		width:100%;
+	}
+
+
+}

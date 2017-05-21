@@ -1,0 +1,35 @@
+@CHARSET "ISO-8859-1";
+
+/*defining the DEFAULT style for all elements of that tag */
+header {
+	display: block;
+	margin: 1%;
+}
+
+fieldset {
+   border: none;
+}
+
+body {
+/*    background-color: #aed0de;
+    color: white;*/
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+footer {
+    background-color: white;
+    color: #797979;
+    font-family: Arial, Helvetica, sans-serif;
+    bottom:0;
+}
+
+.footer{
+	text-align: center;
+	width: 100%;
+	
+}
+
+section{
+	
+	margin-bottom:1%;
+}

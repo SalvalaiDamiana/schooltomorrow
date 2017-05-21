@@ -1,0 +1,65 @@
+@CHARSET "ISO-8859-1";
+/*JavaScript table*/
+.notav{
+	background-color:#dddddd;
+}
+
+.taken{
+	background-color: #ff3333; 
+}
+
+.free{
+	background-color: #6dc072;
+	cursor: pointer;
+}
+
+
+td:hover {
+	background-color: #f5f5f5;
+	cursor: pointer;	
+}
+
+
+/*calendar header*/
+.cal_header{
+	background-color:#f1f1f1;
+}
+
+.menu{
+	float: left;
+	width: 30%
+}
+
+#content{
+	display: flex;	
+}
+
+.calendar{
+	float: right;
+	width: 70%;
+	padding-right: 1%;
+}	
+	
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: relative;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color:  #797979;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color:  #bbb;
+}
