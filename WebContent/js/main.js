@@ -13,15 +13,17 @@ var n = weekday[d.getDay()];
 var c = "c";/*occupy*/
 var f = "f";/*free*/
 var na = "na";/*available*/
+var b = "b";/*booked*/
+
 
 var data = [
-    [c,f,c,c,na,f], //sunday
+    [c,f,b,c,na,f], //sunday
     [c,f,f,c,f,na],
     [c,c,c,f,c,f],
     [c,f,c,c,c,f],
     [c,na,na,f,c,na],
     [c,f,f,c,f,f],
-    [c,na,na,na,f,f]]; //saturday
+    [c,na,na,na,b,f]]; //saturday
 
 var table = document.createElement('table');
 
@@ -52,6 +54,9 @@ for (var i = 0; i < 12; i++){ /* For every row (hour)*/
         switch(data[k][i]){
         case c:
         	td.className ="taken"
+        	break;
+        case b:
+        	td.className ="booked"
         	break;
         case f:
         	td.className ="free"

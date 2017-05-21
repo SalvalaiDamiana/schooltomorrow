@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-
+<%@ page  import="schooltomorrow.MainServlet.*, java.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +34,7 @@
 			class="close" title="Close Modal">&times;</span>
 			 <!-- Modal Content -->
 			 <form class="modal-content animate" action="<%= request.getSession().getAttribute("URL")%>" method="post">
-			 <input name="servletAction" type="hidden" value=<% =Page.LOGIN.name() %>> >
+			 <input name="servletAction" type="hidden" value="<%= Page.LOGIN.name() %>"> 
 			 <div class="imgcontainer">
 			     <img src="img/avatarAccount.png" alt="Avatar" class="avatar">
 			   </div>
@@ -75,10 +75,10 @@
 			
 			<!-- The Modal (contains the Sign Up form) -->
 			<div id="id02" class="modal">
-			  <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
-			 <form class="modal-content animate" 
-			 			action="	SERVLET	" method="post">
- 						<!-- registrazion "cosa" a cui il servlet ti deve rimandare -->
+			 <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+			 <form class="modal-content animate" action="<%= request.getSession().getAttribute("URL")%>" method="post">
+			 <input name="servletAction" type="hidden" value="<%= Page.LOGIN.name() %>">   
+			    
 			    <div class="container">
 			      <label><b>Email</b></label>
 			      <input type="text" placeholder="Enter Email" name="email" required>

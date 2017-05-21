@@ -1,5 +1,9 @@
 @CHARSET "ISO-8859-1";
 /*JavaScript table*/
+.booked{
+	background-color:#5348ae;
+}
+
 .notav{
 	background-color:#dddddd;
 }

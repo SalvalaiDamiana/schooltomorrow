@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page  import="schooltomorrow.MainServlet.*, java.util.*" %>
+
 <!DOCTYPE html>
 <html>
 <script src="https://www.w3schools.com/lib/w3.js"></script>	
@@ -11,14 +12,13 @@
 <body>
 
 	<%/*Am I a parent or a worker? */
-		if( (User)request.getSession().getAttribute("currentUser").role == Role.Parent.name() )
+		if(((User)request.getSession().getAttribute("currentUser")).getRole() == Role.Parent )
 		{ 
 	%>    
-	 here i am a parent
+<!-- 	here i am a parent -->
 
 	 <% 
 		}else{ 
-	here i am a segretary
 	
 		}
 	%>
