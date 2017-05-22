@@ -1,27 +1,26 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" %>
 <%@ page	import="schooltomorrow.MainServlet.*, schooltomorrow.Common.*, java.util.*" %>
-<%User user = (User)request.getSession().getAttribute("currentUser");%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta name="robots" content="noindex, nofollow" />
     <meta name="keywords" content="***" />
-    <script> 
-    	var currentUser = JSON.parse
-    </script>
+    <script
+			src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+		</script>
     <link href = "../css/main.css" rel = "stylesheet" type = "text/css" media = "all">
 		<title>Appointment Entry Book</title>
 	</head>
 	<body>
 		<form method="post" action="<%= request.getSession().getAttribute("URL") %>">
 			<input name="servletAction" type="hidden" value="UPDATE_USER_INFO">
-			Name: <input name="name" type="text" placeholder="Name of the Parent" value="<%=user.getName()%>" spellcheck="true"/><br><br>
-			Family Name: <input name="familyName" type="text" placeholder="Family Name of the Parent" value="<%=user.getFamilyName()%>" spellcheck="true"/><br><br>
-			Phone: <input name="phone" type="text" placeholder="Phone number" value="<%=user.getPhone()%>" spellcheck="true"/><br><br>
-			<!-- E-mail: <input name="email" type="email" placeholder="E-mail address" value="<%=user.getEmail()%>" spellcheck="false"/><br><br>-->
-			Child's Name: <input name="childName" type="text" placeholder="Name of the Child" value="<%=user.getName()%>" spellcheck="true"/><br><br>
-			Child's Family Name: <input name="childFamilyName" type="text" placeholder="Family Name of the Child" value="<%=user.getName()%>" spellcheck="true"/><br><br>
-			City of Registration: <input name="cityRegistration" type="text" placeholder="City of Registration" value="<%=user.getName()%>" spellcheck="true"/><br><br>
+			Name: <input name="name" id="name" type="text" placeholder="Name of the Parent" value="" spellcheck="true"/><br><br>
+			Family Name: <input name="familyName" type="text" placeholder="Family Name of the Parent" value=currentUser.familyName spellcheck="true"/><br><br>
+			Phone: <input name="phone" type="text" placeholder="Phone number" value="" spellcheck="true"/><br><br>
+			<!-- E-mail: <input name="email" type="email" placeholder="E-mail address" value="" spellcheck="false"/><br><br>-->
+			Child's Name: <input name="childName" type="text" placeholder="Name of the Child" value="" spellcheck="true"/><br><br>
+			Child's Family Name: <input name="childFamilyName" type="text" placeholder="Family Name of the Child" value="" spellcheck="true"/><br><br>
+			City of Registration: <input name="cityRegistration" type="text" placeholder="City of Registration" value="" spellcheck="true"/><br><br>
 			<input name="Submit" type="submit" value="Save Changes">
 		</form>
 		=======================================================================
@@ -77,5 +76,12 @@
 		<br/>
 		=======================================================================
 		<br/><br/>
+		<script> 
+    	var currentUser = JSON.parse('<%=request.getSession().getAttribute("currentUser")%>');
+    	$(document).ready(function(){
+    		$("#name").val() = currentUser.name;
+    	});
+    	
+    </script>
 	</body>
 </html>

@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.websocket.Session;
-import org.json.JSONObject;
 
 // http://localhost:8080/appointment/main
 public class MainServlet extends HttpServlet {
@@ -174,12 +173,7 @@ public class MainServlet extends HttpServlet {
 	        request.getSession(true).invalidate();
 	        request.getSession(true); // makes new session
 	        currentUser = Common.loadUserData(currentUser);
-	        JSONObject obj = new JSONObject();
-	        obj.put("name", "foo");
-	        obj.put("num", new Integer(100));
-	        obj.put("balance", new Double(1000.21));
-	        obj.put("is_vip", new Boolean(true));
-	        request.getSession().setAttribute(sCurrentUser, currentUser);
+	        request.getSession().setAttribute(sCurrentUser, currentUser.getJSON());
 	        request.getSession().setAttribute(sCurrentPage, Page.HOME.name());
 	        request.getRequestDispatcher(sHomePage).forward(request, response);
 	      }

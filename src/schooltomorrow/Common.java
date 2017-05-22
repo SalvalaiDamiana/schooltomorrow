@@ -93,7 +93,7 @@ public class Common {
 			Statement st = dbConnection.createStatement();
 			String query = "SELECT pk, " + cmPassword + ", " + cmRole + " FROM " + tbUsers + " WHERE " 
 					+ cmLogin + "='" + login + "';";
-			System.out.println(query);
+			// System.out.println(query);
 			ResultSet rs = st.executeQuery(query);
 			String password = "";
 			int personId = 0;

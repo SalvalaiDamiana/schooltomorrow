@@ -1,9 +1,5 @@
 package schooltomorrow;
 
-import java.time.LocalDateTime;
-
-import org.json.JSONObject;
-
 import schooltomorrow.MainServlet.Role;
 
 public final class User {
@@ -48,15 +44,22 @@ public final class User {
    	this.appntmntId = appntmntId;
   }
   public String getJSON() {
-    JSONObject obj = new JSONObject();
-    obj.put("login", this.getLogin());
-    obj.put("personId", this.getPersonId());
-    obj.put("name", this.getName());
-    obj.put("num", new Integer(100));
-    obj.put("balance", new Double(1000.21));
-    obj.put("is_vip", new Boolean(true));
+  	String s;
+  	s = "{" 
+  		+ "\"login\":\"" + this.getLogin() + "\", " 
+  		+ "\"personId\":" + this.getPersonId() + ", "
+  		+ "\"name\":\"" + this.getName() + "\", "
+  		+ "\"familyName\":\"" + this.getFamilyName() + "\", "
+  		+ "\"phone\":\"" + this.getPhone() + "\", "
+  		+ "\"email\":\"" + this.getEmail() + "\", "
+  		+ "\"childName\":\"" + this.getChildName() + "\", "
+  		+ "\"childFamilyName\":\"" + this.getChildFamilyName() + "\", "
+	    + "\"cityRegistration\":\"" + this.getCityRegistration() + "\", "
+	    + "\"appntmntId\":" + this.getAppntmntId() + " "
+	    +	"}";
+	  System.out.println(s);
+	  return s;
   }
-
   
   public String getLogin() {return this.login;}
   public void setLogin(String login) {
