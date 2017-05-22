@@ -1,5 +1,6 @@
 package schooltomorrow;
 
+import schooltomorrow.Common;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -21,46 +22,24 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.websocket.Session;
+import org.json.JSONObject;
 
 // http://localhost:8080/appointment/main
 public class MainServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 7L;
-	private static String db = "jdbc:postgresql://localhost:5432/AIT";
-	private static String pgLogin = "postgres";
-	private static String pgWord = "86K624mt";
-	private static String tbUsers = "users";
-	private static String cmLogin = "login";
-	private static String cmPassword = "password";
-	private static String cmRole = "role";
-	private static String tbUserData = "userData";
-	private static String cmName = "name";
-	private static String cmFamilyName = "familyName";
-	private static String cmPhone = "phone";
-	private static String cmEmail = "email";
-	private static String cmChildName = "childName";
-	private static String cmChildFamilyName = "childFamilyName";
-	private static String cmCityRegistration = "cityRegistration";
-	private static String cmAppntmntPK = "appntmnt_pk";
-	private static String cmUserPK = "user_pk";
-	private static String tbAppntmnt = "appntmnt";
-	private static String cmDate = "date";
-	private static String cmTimeStarts = "timeStarts";
-	private static String cmTimeEnds = "timeEnds";
-	private static String cmStatus = "status";
-	private static String cmDepartmentPK = "department_pk";
-	private static String tbSchedule = "schedule";
-
+	
+	private static String sLoginPage = "/jsp/login.jsp"; // "/jsp/login.jsp"; "/jsp/homepage.jsp";
+	private static String sHomePage = "/jsp/main.jsp"; // "/jsp/main.jsp"; "/jsp/homepage.jsp"; 
 	private static String sURL = "URL"; 
 	private static String sLogin = "uname"; 
-	private static String sPasswrd = "psw"; 
+	private static String sPassword = "psw"; 
 	private static String sName = "name"; 
 	private static String sFamilyName = "familyName"; 
 	private static String sPhone = "phone"; 
@@ -106,11 +85,11 @@ public class MainServlet extends HttpServlet {
       // in case if there were errors earlier
       Set<Errors> pageErrors = EnumSet.noneOf(Errors.class);
       request.getSession().setAttribute(sPageErrors, pageErrors);
-      request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
+      request.getRequestDispatcher(sLoginPage).forward(request, response);
       return;
     }
     request.getSession().setAttribute(sCurrentPage, Page.HOME.name());
-    request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
+    request.getRequestDispatcher(sHomePage).forward(request, response);
     
     if (true) return;
 		response.setContentType("text/html");
@@ -129,8 +108,9 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		if (request.getSession().getAttribute(sURL) == null) {
-			request.getSession().setAttribute(sURL, "http://" + request.getServerName() 
-			+ ":" + request.getServerPort() + request.getContextPath() + request.getServletPath());
+			/*String URL =  "http://" + request.getServerName() + ":" + request.getServerPort() 
+				+ request.getContextPath() + request.getServletPath();*/
+			request.getSession().setAttribute(sURL, "http://localhost:8080/schooltomorrow/main");
 		}
 		response.setContentType("text/html");
     response.setCharacterEncoding("UTF-8"); 
@@ -157,13 +137,13 @@ public class MainServlet extends HttpServlet {
     request.getSession().setAttribute(sPageErrors, pageErrors);
     if (request.getSession().getAttribute(sCurrentUser) == null
         && !((String)request.getParameter(sServletAction)).equals(Page.LOGIN.name())) {
-      request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
+      request.getRequestDispatcher(sLoginPage).forward(request, response);
       return;
     }
     if (request.getParameter(sServletAction) == null) { 
       // have got here by mistake
       request.getSession().setAttribute(sCurrentPage, Page.HOME.name());
-      request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
+      request.getRequestDispatcher(sLoginPage).forward(request, response);
       return;
     }
     switch (Page.valueOf(request.getParameter(sServletAction))) {
@@ -174,30 +154,34 @@ public class MainServlet extends HttpServlet {
 	    		request.getSession().removeAttribute(sLoginFailed);
 	    	// TODO: try to switch to https. At least for login page.
 	      String login = request.getParameter(sLogin);
-	      String password = request.getParameter(sPasswrd);
+	      String password = request.getParameter(sPassword);
 	      if ((login == null) || (login == "") || (password == null) || (password == "")) {
 	        pageErrors.add(Errors.LOGIN_FAILED);
 	        request.getSession().setAttribute(sPageErrors, pageErrors);
 	        request.getSession().setAttribute(sLoginFailed, sLoginFailed);
-	        request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
+	        request.getRequestDispatcher(sLoginPage).forward(request, response);
 	        return;
 	      }
 	      // Retrieve user's information
-	      User currentUser = loadUser(login);
+	      User currentUser = Common.loadUserAccount(login);
 	      if (currentUser.getPassword() == null || !password.equals(currentUser.getPassword())) {
 	        pageErrors.add(Errors.LOGIN_FAILED);
 	        request.getSession().setAttribute(sPageErrors, pageErrors);
 	        request.getSession().setAttribute(sLoginFailed, sLoginFailed);
-	        request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
+	        request.getRequestDispatcher(sLoginPage).forward(request, response);
 	        return;
 	      } else {
 	        request.getSession(true).invalidate();
 	        request.getSession(true); // makes new session
-
-	        currentUser = loadUserData(currentUser);
+	        currentUser = Common.loadUserData(currentUser);
+	        JSONObject obj = new JSONObject();
+	        obj.put("name", "foo");
+	        obj.put("num", new Integer(100));
+	        obj.put("balance", new Double(1000.21));
+	        obj.put("is_vip", new Boolean(true));
 	        request.getSession().setAttribute(sCurrentUser, currentUser);
 	        request.getSession().setAttribute(sCurrentPage, Page.HOME.name());
-	        request.getRequestDispatcher("/jsp/homepage.jsp").forward(request, response);
+	        request.getRequestDispatcher(sHomePage).forward(request, response);
 	      }
 	    } break; // case "NEW_LOGIN":
 	    // --------------
@@ -219,7 +203,7 @@ public class MainServlet extends HttpServlet {
 	    	currentUser.setChildName(childName);
 	    	currentUser.setChildFamilyName(childFamilyName);
 	    	currentUser.setCityRegistration(cityRegistration);
-	    	saveUserData(currentUser);
+	    	Common.saveUserData(currentUser);
 	    	request.getSession().setAttribute(sCurrentPage, Page.HOME.name());
 	      request.getRequestDispatcher("/jsp/main.jsp").forward(request, response);
 	    } break;
@@ -253,9 +237,10 @@ public class MainServlet extends HttpServlet {
 	    	ScheduleInfo[][] scheduleInfo = new ScheduleInfo[7][12];
 	    	for (int i = 0; i < scheduleInfo.length; i++) {
 	    		for (int j = 0; j < scheduleInfo[i].length; j++) {
-	    			
+	    			//scheduleInfo[1][3].state = 
 	    		}
 	    	}
+	    	request.getSession().setAttribute("table", scheduleInfo);
 	    } break;
 	    // --------------
 	    // --------------
@@ -283,7 +268,7 @@ public class MainServlet extends HttpServlet {
 		return sb.toString();
 	}
 	// ----------------------
-	public static String createClassForPostgres() {
+	/*public static String createClassForPostgres() {
 		try {
 			String driver = "org.postgresql.Driver";
 			Class.forName(driver);
@@ -306,208 +291,20 @@ public class MainServlet extends HttpServlet {
 			return dbConnection;
 		} catch (SQLException e) {
 			/* out.println("Error occured during connection to the DataBase. \n" + e.getMessage() + "\n");
-			out.println("StackTrace: " + e.getStackTrace());*/
+			out.println("StackTrace: " + e.getStackTrace());
 			return null;
 		}
-	}
+	}*/
 	// ----------------------
 	public final class ScheduleInfo {
 		String time;
-		String state;
-	}
-	// ----------------------
-	public final class User {
-	  private String login;
-	  private String password;
-	  private int personId;
-	  private Role role;
-	  private String name, familyName, phone, email, childName, childFamilyName, cityRegistration;
-	  private LocalDateTime meetingAt = LocalDateTime.now();
-
-
-	  public User() {}
-	  
-	  public User(String login, String password, Role role) {
-	    this.login = login;
-	    this.password = password;
-	    this.role = role;
-	    this.name = null;
-	    this.familyName = null;
-	    this.phone = null;
-	    this.email = null;
-	    this.childName = null;
-	    this.childFamilyName = null;
-	    this.cityRegistration = null;
-	    this.meetingAt = null;
-	  }
-	  /**
-	   * This constructor sets login, password, schoolKey and accountID
-	   **/
-	  public User(String login, String password, int personId, String name, String familyName, 
-	  		String phone, String email, String childName, String childFamilyName, String cityRegistration,
-	  		LocalDateTime meetingAt) {
-	  	this.login = login;
-	  	this.password = password;
-	   	this.personId = personId;
-	   	this.name = name;
-	   	this.familyName = familyName;
-	   	this.phone = phone;
-	   	this.email = email;
-	   	this.childName = childName;
-	   	this.childFamilyName = childFamilyName;
-	   	this.cityRegistration = cityRegistration;
-	   	this.meetingAt = meetingAt;
-	  }
-	  public String getLogin() {return this.login;}
-	  public void setLogin(String login) {
-	    this.login = login;
-	  }
-	  public String getPassword() {return this.password;}
-	  public void setPassword(String password) {
-		  this.password = password;
-	  }
-	  public int getPersonId() {return this.personId;}
-	  public void setPersonId(int personId) {
-	    this.personId = personId;
-	  }
-	  public Role getRole() {return this.role;}
-	  public void setRole(Role role) {
-	  	this.role = role;
-	  }
-	  public String getName() {return this.name;}
-	  public void setName(String name) {
-		  this.name = name;
-	  }
-	  public String getFamilyName() {return this.familyName;}
-	  public void setFamilyName(String familyName) {
-		  this.familyName = familyName;
-	  }
-	  public String getPhone() {return this.phone;}
-	  public void setPhone(String phone) {
-		  this.phone = phone;
-	  }
-	  public String getEmail() {return this.email;}
-	  public void setEmail(String email) {
-		  this.email = email;
-	  }
-	  public String getChildName() {return this.childName;}
-	  public void setChildName(String childName) {
-		  this.childName = childName;
-	  }
-	  public String getChildFamilyName() {return this.childFamilyName;}
-	  public void setChildFamilyName(String childFamilyName) {
-		  this.childFamilyName = childFamilyName;
-	  }
-	  public String getCityRegistration() {return this.cityRegistration;}
-	  public void setCityRegistration(String cityRegistration) {
-		  this.cityRegistration = cityRegistration;
-	  }
-	  public LocalDateTime getMeetingAt() {return this.meetingAt;}
-	  public void setMeetingAt(LocalDateTime meetingAt) {
-	    this.meetingAt = meetingAt;
-	  }
+		String state; // taken, free, notav, booked
+		int Id;
 	}
 	//----------------------
-	private User loadUser(String login) {
-		String result = createClassForPostgres();
-		if (!result.equals("")) { // 
-			System.out.println(result);
-		}
-		Connection dbConnection = connectToDB(db, pgLogin, pgWord);
-		if (dbConnection == null) {
-			System.out.println("Error occured during connection to the DataBase. \n");
-		}
-		try { // executing a query
-			Statement st = dbConnection.createStatement();
-			String query = "SELECT " + cmPassword + ", pk, " + cmRole + " FROM " + tbUsers + " WHERE " 
-					+ cmLogin + "='" + login + "';";
-			ResultSet rs = st.executeQuery(query);
-			String password = null;
-			int personId = 0;
-			Role role = null;
-			while (rs.next()) {
-				password = rs.getString(1);
-				personId = rs.getInt(2);
-				role = Role.valueOf(rs.getString(3));
-			}
-			rs.close();
-			st.close();
-			dbConnection.close();
-			return new User(login, password, role);
-		} catch (SQLException e) {
-			System.out.println("SQLException. " + e.getMessage());
-			System.out.println("StackTrace: " + e.getStackTrace());
-			return new User();
-		}
-	}
+	
 	//----------------------
-	private User loadUserData(User user) {
-		Connection dbConnection = connectToDB(db, pgLogin, pgWord);
-		if (dbConnection == null) {
-			System.out.println("Error occured during connection to the DataBase. \n");
-		}
-		try { // executing a query
-			Statement st = dbConnection.createStatement();
-			String query = "SELECT " + cmName + ", " + cmFamilyName + ", " + cmPhone + ", " + cmEmail + ", " 
-				+ cmChildName + ", " + cmChildFamilyName + ", " + cmCityRegistration + ", " + cmAppntmntPK 
-				+ " FROM " + tbUserData + " WHERE " + cmUserPK + "=" + user.getPersonId() + ";";
-			//System.out.println(query);
-			//if (true) return null;
-			ResultSet rs = st.executeQuery(query);
-			String name = null, familyName = null, phone = null, email = null, childName = null, 
-					childFamilyName = null, cityRegistration = null;
-			int appntmntPK = 0;
-			while (rs.next()) {
-				name = rs.getString(1);
-				familyName = rs.getString(2);
-				phone = rs.getString(3);
-				email = rs.getString(4);
-				childName = rs.getString(5);
-				childFamilyName = rs.getString(6);
-				cityRegistration = rs.getString(7);
-				if (rs.getString(8) != null) appntmntPK = rs.getInt(8);
-			}
-			LocalDateTime ldt = null;
-			if (appntmntPK > 0) {
-				query = "SELECT " + cmDate + ", " + cmTimeStarts + ", " + cmStatus + ", " + cmUserPK + ", " 
-					+ " FROM " + tbAppntmnt + " WHERE pk=" + appntmntPK + ";";
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-				while (rs.next()) {
-					ldt = LocalDateTime.parse(rs.getString(1) + " " + rs.getString(2), formatter);
-				}
-			}
-			rs.close();
-			st.close();
-			dbConnection.close();
-			return new User(user.getLogin(), user.getPassword(), user.getPersonId(), name, familyName, phone,
-				email, childName, childFamilyName, cityRegistration, ldt);
-		} catch (SQLException e) {
-			System.out.println("SQLException. " + e.getMessage());
-			System.out.println("StackTrace: " + e.getStackTrace());
-			return user;
-		}
-	} // private User loadUserData(User user)
-	//----------------------
-	private void saveUserData(User user) {
-		if (user == null) return;
-		Connection dbConnection = connectToDB(db, pgLogin, pgWord);
-		if (dbConnection == null) {
-			System.out.println("Error occured during connection to the DataBase. \n");
-		}
-		try { // executing a query
-			Statement st = dbConnection.createStatement();
-			String query = "UPDATE " + tbUserData + " SET " + cmName + ", " + cmFamilyName + ", " + cmPhone 
-				+ ", " + cmEmail + ", " + cmChildName + ", " + cmChildFamilyName + ", " + cmCityRegistration 
-				+ ", " + cmAppntmntPK + " WHERE " + cmUserPK + "=" + user.getPersonId() + ";";
-			st.executeUpdate(query);
-			dbConnection.commit();
-			st.close();
-			dbConnection.close();
-		} catch (SQLException e) {
-			System.out.println("SQLException. " + e.getMessage());
-			System.out.println("StackTrace: " + e.getStackTrace());
-		}
-	}
+	
 	//----------------------
 	private void reserve(User user, LocalDateTime ldt) {
 		/*if (ldt.getDayOfYear() < LocalDateTime.now().getDayOfYear() + 1) return;
