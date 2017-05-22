@@ -163,7 +163,7 @@ public class MainServlet extends HttpServlet {
 	    	String childFamilyName = request.getParameter(sChildFamilyName);
 	    	String cityRegistration = request.getParameter(sCityRegistration);
 	    	User currentUser = (User)request.getSession().getAttribute(sCurrentUser);
-	    	out.println("Current user: " + currentUser.getName() + "  " + currentUser.getFamilyName());
+	    	System.out.println("Current user: " + currentUser.getName() + "  " + currentUser.getFamilyName());
 	    	if (true) return;
 	    	currentUser.setName(name);
 	    	currentUser.setFamilyName(familyName);
@@ -181,7 +181,7 @@ public class MainServlet extends HttpServlet {
 	    	String date = request.getParameter(sDate);
 	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDateTime ldt = LocalDateTime.parse(date, formatter);
-        out.println("date: " + formatter.format(ldt));
+        System.out.println("date: " + formatter.format(ldt));
         if (true) return;
 	    	//reserve 
 	    } break;
@@ -215,8 +215,6 @@ public class MainServlet extends HttpServlet {
 	    // --------------
 	    // --------------
     } // switch (sServletAction
-    out.println("</body></html>");
-    out.close();
 	}
 	// =============================================================
 	public static String formatHtml(String data) {
@@ -236,34 +234,6 @@ public class MainServlet extends HttpServlet {
 		}
 		return sb.toString();
 	}
-	// ----------------------
-	/*public static String createClassForPostgres() {
-		try {
-			String driver = "org.postgresql.Driver";
-			Class.forName(driver);
-			return "";
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return "Error occured with PostgreSQL Driver. " + e.getClass().getName() + ": " + e.getMessage();
-		}
-	}
-	// ----------------------
-	public static Connection connectToDB(String dbname, String user, String password) {
-		Connection dbConnection = null;
-		try {
-			Properties properties = new Properties();
-			properties.setProperty("user", user);
-			properties.setProperty("password", password);
-			// props.setProperty("ssl","true");
-			dbConnection = DriverManager.getConnection(dbname, properties);
-			dbConnection.setAutoCommit(false);
-			return dbConnection;
-		} catch (SQLException e) {
-			/* out.println("Error occured during connection to the DataBase. \n" + e.getMessage() + "\n");
-			out.println("StackTrace: " + e.getStackTrace());
-			return null;
-		}
-	}*/
 	// ----------------------
 	public final class ScheduleInfo {
 		String time;
