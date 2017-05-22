@@ -101,9 +101,9 @@
 		      <div class="container">
 		    
 		       <label>Topic of the appointment</label>
-		       <input type="text" name="Topic" placeholder="Topic" list="topics"/> 
-		            <datalist id = "topics">
-		                <option value = "">
+		       <input type="text" name="Topic" placeholder="Topic" list="topics2"/> 
+		            <datalist id = "topics2">
+		                <option value = "Other">
 		                <option value = "Enrollment in the school">
 		                <option value = "Receiving the enrolment certificate">
 		            </datalist><br/>
@@ -125,11 +125,11 @@
 		<span onclick="document.getElementById('id09').style.display='none'" class="close" title="Close Modal">&times;</span>
 		
 		<form class="modal-content animate" action="<%= request.getSession().getAttribute("URL")%>" method="post">
-		<input name="servletAction" type="hidden" value="<%= Page.???????????????????????????????.name() %>"> 
+		<input name="servletAction" type="hidden" value="<%= Page.?????????????.name() %>"> 
 		    <div class="container">
 		       <div class="clearfix">
-			  	<button type="submit" class="signupbtn" value="<%= Page.???????????????????????????????.name() %>">Cancel appointment</button><!-- display calendar (that show own appointment) -->
-			  	<button type="submit" class="signupbtn"value="<%= Page.???????????????????????????????.name() %>">Move to another time slot</button><!-- display free time slots of the professor -->
+			  	<button type="submit" class="signupbtn" value="<%= Page.?????????????.name() %>">Cancel appointment</button><!-- display calendar (that show own appointment) -->
+			  	<button type="submit" class="signupbtn"value="<%= Page.?????????????.name() %>">Move to another time slot</button><!-- display free time slots of the professor -->
 	
 	
 			 	<button type="button" onclick="document.getElementById('id09').style.display='none'" class="cancelbtn">Cancel</button>

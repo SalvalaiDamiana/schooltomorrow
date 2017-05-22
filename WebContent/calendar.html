@@ -8,17 +8,25 @@
 </head>
 <body>
 	
-<header><!--   	logo     -->		
-
+<header>		
+	
+	<!-- The Alert -->
 		<div class="alert">
-  		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-  			Success: the changes have been saved
+	  	<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+	  		Please, complite the registration before arrange an appointment
 		</div>
+	
+	<!-- The Alert -->
+		<div class="alert">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+			Success: the changes have been saved
+		</div>
+
 
    		<form action="calendar.html" method="post">	<!-- calendar in which display FreeSlot of the worker-->
 			<div class="container">
 
-			   	 <label>Topic of the appointment</label>
+			   	 <label>Select department or the teacher</label>
 		       <input type="text" name="Topic" placeholder="Department" list="professionist"/> 
 	            <datalist id = "professionist">
 	                <option value = "Distance Learning">
@@ -29,7 +37,7 @@
 	                <option value = "Teacher D">
 	            </datalist><br/>
 	
-			<button onclick="calendar with data of professors loaded??????????????????????????????l">Submit</button> <br> 
+			<button onclick="???????????">Submit</button> <br> 
 			</div>
 	 	</form>
     
@@ -40,7 +48,7 @@
   	</fieldset>
 </header>	
 <br>
-
+	
 <div id="content">
 		
 	<div class="menu" id="ex_users"> <!-- parent side -->
@@ -59,7 +67,7 @@
 		    <p class="weeknoun" style="font-weight: bold;">2016</p>
 		  </fieldset>
 		</div>
-	<div id="calendar" style="overflow-x:auto;">  
+		<div id="calendar" style="overflow-x:auto;">  
 	</div>
 	</div>
 </div>
