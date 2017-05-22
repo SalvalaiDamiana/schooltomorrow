@@ -3,12 +3,6 @@ package schooltomorrow;
 import schooltomorrow.Common;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -89,18 +83,6 @@ public class MainServlet extends HttpServlet {
     }
     request.getSession().setAttribute(sCurrentPage, Page.HOME.name());
     request.getRequestDispatcher(sHomePage).forward(request, response);
-    
-    if (true) return;
-		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println("<!DOCTYPE html>\r\n" + "<html>\r\n" + " <head>\r\n" +
-			" </head>\r\n" + " <body>\r\n");
-				
-		out.println("URL: " + request.getSession().getAttribute(sURL));
-		if (true) return;
-    out.println("</body></html>");
-    out.close();
 	}
 	// =============================================================
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
@@ -111,24 +93,17 @@ public class MainServlet extends HttpServlet {
 				+ request.getContextPath() + request.getServletPath();*/
 			request.getSession().setAttribute(sURL, "http://localhost:8080/schooltomorrow/main");
 		}
-		response.setContentType("text/html");
-    response.setCharacterEncoding("UTF-8"); 
-    PrintWriter out = response.getWriter(); 
-    out.println("<!DOCTYPE html>\r\n" + "<html>\r\n" + " <head>\r\n" +
-  			" </head>\r\n" + " <body>\r\n");
     Enumeration<String> parameterNames = request.getParameterNames(); 
     while (parameterNames.hasMoreElements()) { 
     	// parameters could be read only one time
       String paramName = parameterNames.nextElement();
-      out.print(paramName + ": "); 
+      System.out.print(paramName + ": "); 
       String[] paramValues = request.getParameterValues(paramName);
       String servletAction = "";
       for (int i = 0; i < paramValues.length; i++) {
-      	
-        String paramValue = paramValues[i];
-        out.print(paramValue + "; "); 
+      	String paramValue = paramValues[i];
+        System.out.print(paramValue + "; "); 
       }
-      out.println("<br><br>"); 
     }
     // Info for Errors on all pages.
     Set<Errors> pageErrors = EnumSet.noneOf(Errors.class);

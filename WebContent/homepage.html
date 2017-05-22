@@ -9,9 +9,12 @@
 <body>
 
   <header>
-  <!-- 
-  	logo
-  	 -->
+ 
+  <!-- The Alert -->
+				<div class="alert">
+		  		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+		  			Warning: user or password invalid
+				</div>
   
 <!-- LOGIN e SIGNIN rimandano alla stessa pagina "registration" -->
 	<fieldset id="modalbttn">
@@ -34,7 +37,7 @@
 			     <input type="text" placeholder="Enter Username" name="uname" required>
 						      <label><b>Password</b></label>
 			     <input type="password" placeholder="Enter Password" name="psw" required>
-						      <button type="submit">Login</button> <br>
+						      <button type="submit" onclick="location.href='calendar.html'">Login</button> <br>
 			    
 			     <input type="checkbox" checked="checked">Remember me<br>
 			   </div>

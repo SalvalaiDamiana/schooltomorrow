@@ -1,6 +1,7 @@
 @CHARSET "ISO-8859-1";
 
 .alert {
+	padding-top: 2px;
     padding: 20px;
     background-color: #f82358;
     color: white;

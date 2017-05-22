@@ -30,7 +30,7 @@
 		<input name="servletAction" type="hidden" value="<%= Page.GET_TABLE.name() %>"> 
 			<div class="container">
 
-			   	<label>Topic of the appointment</label>
+			   	<label>Select the department or the teacher</label>
 		     	<input type="text" name="Topic" placeholder="Department" list="professionist"/> 
 	            <datalist id = "professionist">
 	                <option value = "Distance Learning">
